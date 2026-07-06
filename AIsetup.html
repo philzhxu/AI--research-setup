@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>如何配置AI辅助研究环境 — Claude Code 完整安装指南</title>
+  <meta name="description" content="从零开始为经济学及社会科学研究者搭建 AI 辅助研究环境：Python、Node.js、Git、Claude Code、VS Code、Stata Workbench、LaTeX。涵盖 macOS 与 Windows 双系统。">
+  <meta name="keywords" content="Claude Code, AI研究, Python环境, Miniforge, VS Code, Stata, LaTeX, 经济学研究, 配置指南">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1rem;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5em 1.5em;
+      color: #222;
+      line-height: 1.8;
+      background: #fff;
+    }
+
+    h1 {
+      font-size: 1.75em;
+      font-weight: normal;
+      color: #012169;
+      margin-bottom: 0.1em;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 1.15em;
+      font-weight: bold;
+      color: #012169;
+      margin-top: 2.5em;
+      margin-bottom: 0.6em;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid #ddd;
+    }
+
+    h3 {
+      font-size: 1em;
+      font-weight: bold;
+      color: #333;
+      margin-top: 1.4em;
+      margin-bottom: 0.4em;
+    }
+
+    h4 {
+      font-size: 0.95em;
+      font-weight: bold;
+      color: #555;
+      margin-top: 1em;
+      margin-bottom: 0.3em;
+    }
+
+    p { margin: 0.8em 0; }
+
+    a { color: #012169; }
+    a:hover { color: #B9975B; }
+
+    ul, ol {
+      margin: 0.6em 0 0.6em 1.4em;
+      padding: 0;
+    }
+
+    li { margin: 0.3em 0; }
+
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.85em;
+      background: #f4f4f4;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1em 1.2em;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.8em 0;
+      font-size: 0.88em;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    pre code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: 1em;
+      border-radius: 0;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5em;
+      right: 0.6em;
+      background: #444;
+      color: #ccc;
+      border: none;
+      border-radius: 3px;
+      padding: 0.2em 0.6em;
+      font-size: 0.75em;
+      cursor: pointer;
+      font-family: sans-serif;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    pre:hover .copy-btn { opacity: 1; }
+    .copy-btn:hover { background: #666; color: #fff; }
+    .copy-btn.copied { background: #2d6a2d; color: #fff; }
+
+    .note {
+      background: #fffbf0;
+      border-left: 4px solid #B9975B;
+      padding: 0.7em 1em;
+      margin: 0.8em 0;
+      font-size: 0.93em;
+      color: #5a4a1a;
+    }
+
+    .note strong { color: #7a5a10; }
+
+    .warning {
+      background: #fff5f5;
+      border-left: 4px solid #c0392b;
+      padding: 0.7em 1em;
+      margin: 0.8em 0;
+      font-size: 0.93em;
+      color: #5a1a1a;
+    }
+
+    .intro-box {
+      background: #f0f4fa;
+      border: 1px solid #c8d8f0;
+      padding: 1em 1.3em;
+      margin-bottom: 2em;
+      font-size: 0.95em;
+      line-height: 1.7;
+    }
+
+    /* ── OS TABS ─────────────────────────────── */
+    .os-tabs {
+      display: flex;
+      gap: 0;
+      margin: 1em 0 0 0;
+      border-bottom: 2px solid #012169;
+    }
+
+    .os-tab-btn {
+      padding: 0.45em 1.2em;
+      border: none;
+      background: #e8eef8;
+      color: #444;
+      cursor: pointer;
+      font-size: 0.88em;
+      font-family: Georgia, serif;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      margin-right: 3px;
+      transition: background 0.15s;
+    }
+
+    .os-tab-btn.active {
+      background: #012169;
+      color: #fff;
+    }
+
+    .os-tab-btn:hover:not(.active) {
+      background: #c8d8f0;
+    }
+
+    .os-pane { display: none; padding: 0.8em 0 0.2em 0; }
+    .os-pane.active { display: block; }
+
+    /* ── TOC ─────────────────────────────────── */
+    .toc {
+      background: #f8f9fb;
+      border: 1px solid #dde3ec;
+      padding: 1em 1.4em;
+      margin-bottom: 2.5em;
+      font-size: 0.88em;
+    }
+
+    .toc-title {
+      font-weight: bold;
+      color: #012169;
+      margin-bottom: 0.5em;
+      font-size: 0.95em;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    .toc li { margin: 0.25em 0; }
+
+    .toc a { text-decoration: none; color: #012169; }
+    .toc a:hover { text-decoration: underline; color: #B9975B; }
+
+    /* ── STEP BADGES ────────────────────────── */
+    .step-badge {
+      display: inline-block;
+      background: #012169;
+      color: #fff;
+      font-size: 0.75em;
+      padding: 0.1em 0.55em;
+      border-radius: 10px;
+      margin-right: 0.4em;
+      font-family: sans-serif;
+      vertical-align: middle;
+      letter-spacing: 0.02em;
+    }
+
+    .appendix-badge {
+      background: #6b5a30;
+    }
+
+    /* ── VERIFY BLOCK ───────────────────────── */
+    .verify {
+      background: #f0faf0;
+      border-left: 4px solid #2d7d2d;
+      padding: 0.6em 1em;
+      margin: 0.8em 0;
+      font-size: 0.92em;
+      color: #1a4a1a;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 2.5em 0;
+    }
+
+    /* ── BACK TO TOP ────────────────────────── */
+    .back-to-top {
+      display: block;
+      text-align: right;
+      font-size: 0.78em;
+      color: #888;
+      text-decoration: none;
+      margin-top: 0.5em;
+    }
+
+    .back-to-top:hover { color: #012169; }
+
+    footer {
+      margin-top: 4em;
+      padding-top: 1em;
+      border-top: 1px solid #ddd;
+      font-size: 0.82em;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 1rem; padding: 1.5em 1em; }
+      h1 { font-size: 1.4em; }
+    }
+  </style>
+</head>
+
+<body>
+<a id="top"></a>
+
+<h1>如何配置AI辅助研究环境</h1>
+<p style="color:#888; font-size:0.88em; margin-top:0.2em;">适用于经济学、社会科学及相关领域研究者 · macOS &amp; Windows</p>
+
+<div class="intro-box">
+  本指南帮助你从零开始，搭建以 <strong>Claude Code</strong> 为核心的AI辅助学术研究工作台。完成全部步骤后，你将拥有：
+  <ul style="margin:0.5em 0 0 1.2em;">
+    <li>Python 数据分析环境（Miniforge + conda）</li>
+    <li>AI 对话式编程助理（Claude Code + VS Code）</li>
+    <li>Stata 集成（Stata Workbench 插件）</li>
+    <li>LaTeX 论文排版环境（MacTeX / TeX Live + TeXstudio）</li>
+  </ul>
+  <p style="margin:0.6em 0 0;"><strong>适用系统：</strong> macOS 12+ · Windows 10+<br>
+  <strong>所需时间：</strong> 约 1–2 小时（取决于网络速度）</p>
+</div>
+
+<nav class="toc" aria-label="目录">
+  <div class="toc-title">目 录</div>
+  <ol>
+    <li><a href="#step0">第0步：配置 Python 环境</a></li>
+    <li><a href="#step1">第1步：安装编辑器（VS Code）</a></li>
+    <li><a href="#step2">第2步：安装 Node.js</a></li>
+    <li><a href="#step3">第3步：安装 Git</a></li>
+    <li><a href="#step4">第4步：安装 Claude Code</a></li>
+    <li><a href="#step4-5">第4.5步：Google Antigravity 与 Gemini</a></li>
+    <li><a href="#step5">第5步：安装 VS Code 插件</a></li>
+    <li><a href="#step6">第6步：配置 API 与登录</a></li>
+    <li><a href="#appendixA">附录 A：Stata Workbench 配置</a></li>
+    <li><a href="#appendixB">附录 B：LaTeX 环境配置</a></li>
+    <li><a href="#faq">常见问题</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════════════ STEP 0 ══════════════════════ -->
+<h2 id="step0"><span class="step-badge">Step 0</span>配置 Python 环境</h2>
+
+<p>Python 是数据分析的基础语言。我们使用 <strong>Miniforge</strong>（conda 的轻量社区版）来管理 Python 环境，避免版本冲突。</p>
+
+<div class="os-tabs" role="tablist" data-group="step0">
+  <button class="os-tab-btn active" role="tab" data-tab="step0-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="step0-win">🪟 Windows</button>
+</div>
+
+<div id="step0-mac" class="os-pane active">
+  <ol>
+    <li>
+      访问 <a href="https://conda-forge.org/download/" target="_blank" rel="noopener">conda-forge.org/download</a>，下载对应芯片的安装包：
+      <ul>
+        <li><strong>Apple Silicon（M1/M2/M3/M4）</strong>：<code>Miniforge3-MacOSX-arm64.sh</code></li>
+        <li><strong>Intel Mac</strong>：<code>Miniforge3-MacOSX-x86_64.sh</code></li>
+      </ul>
+      <div class="note">不知道芯片类型？点击左上角苹果菜单 → "关于本机"查看。</div>
+    </li>
+    <li>
+      打开<strong>终端</strong>（启动台搜索"终端"，或按 <code>Cmd+Space</code> 输入 Terminal），运行：
+<pre><code class="language-bash"># Apple Silicon
+bash ~/Downloads/Miniforge3-MacOSX-arm64.sh
+
+# Intel Mac
+bash ~/Downloads/Miniforge3-MacOSX-x86_64.sh</code><button class="copy-btn">复制</button></pre>
+      按提示输入 <code>yes</code> 并按 <code>Enter</code>，一路确认。
+    </li>
+    <li>安装完成后，<strong>关闭并重新打开终端</strong>。若提示符前出现 <code>(base)</code>，说明 conda 已成功激活。</li>
+    <li>
+      创建专用数据科学虚拟环境：
+<pre><code class="language-bash">conda create -n datasci python=3.10
+conda activate datasci
+conda install pandas numpy scipy scikit-learn matplotlib seaborn jupyter</code><button class="copy-btn">复制</button></pre>
+    </li>
+  </ol>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：在终端运行 <code>python --version</code>，显示 <code>Python 3.10.x</code> 即成功。
+  </div>
+</div>
+
+<div id="step0-win" class="os-pane">
+  <ol>
+    <li>
+      访问 <a href="https://conda-forge.org/download/" target="_blank" rel="noopener">conda-forge.org/download</a>，下载 <code>Miniforge3-Windows-x86_64.exe</code>。
+    </li>
+    <li>
+      双击安装包，按图形界面指引安装：
+      <ul>
+        <li>建议勾选 <strong>"Add Miniforge3 to PATH environment variable"</strong>（方便命令行使用）</li>
+        <li>其余选项保持默认</li>
+      </ul>
+    </li>
+    <li>
+      安装完成后，从<strong>开始菜单</strong>搜索并打开 <strong>"Miniforge Prompt"</strong>（注意：不是 PowerShell 或 CMD）。
+    </li>
+    <li>
+      在 Miniforge Prompt 中创建环境：
+<pre><code class="language-cmd">conda create -n datasci python=3.10
+conda activate datasci
+conda install pandas numpy scipy scikit-learn matplotlib seaborn jupyter</code><button class="copy-btn">复制</button></pre>
+    </li>
+  </ol>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：在 Miniforge Prompt 运行 <code>python --version</code>，显示 <code>Python 3.10.x</code> 即成功。
+  </div>
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 1 ══════════════════════ -->
+<h2 id="step1"><span class="step-badge">Step 1</span>安装编辑器（VS Code）</h2>
+
+<p>VS Code 是 Claude Code 的主要工作台，你通过它与 AI 对话、编写代码、管理项目文件。</p>
+
+<div class="note">
+  <strong>备选方案：</strong><a href="https://www.trae.ai/" target="_blank" rel="noopener">Trae IDE</a>（字节跳动出品，内置 AI，界面与 VS Code 相似）。两者选一即可，本指南以 VS Code 为主。
+</div>
+
+<div class="os-tabs" role="tablist" data-group="step1">
+  <button class="os-tab-btn active" role="tab" data-tab="step1-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="step1-win">🪟 Windows</button>
+</div>
+
+<div id="step1-mac" class="os-pane active">
+  <ol>
+    <li>访问 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a>，下载 macOS 版（<code>.dmg</code>）。</li>
+    <li>打开 <code>.dmg</code>，将 Visual Studio Code 拖拽到"应用程序"文件夹。</li>
+    <li>首次打开时，若系统提示"来自互联网的应用"，点击"打开"即可。</li>
+    <li>
+      打开 VS Code，点击左侧 <strong>Extensions（扩展）</strong> 图标，搜索并安装：
+      <ul>
+        <li><strong>Python</strong>（Microsoft 出品）</li>
+        <li><strong>Jupyter</strong>（Microsoft 出品）</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4>测试 Jupyter 环境</h4>
+  <ol>
+    <li>新建文件，保存为 <code>test.ipynb</code>（注意后缀 <code>.ipynb</code>）</li>
+    <li>点击右上角 <strong>"Select Kernel"</strong> → <strong>"Python Environments..."</strong> → 选择 <code>datasci (Python 3.10.x)</code></li>
+    <li>在代码块输入测试代码并运行：</li>
+  </ol>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+
+df = pd.DataFrame(np.random.randn(5, 3), columns=['收入', '消费', '储蓄'])
+print("Python 环境正常！")
+print(df.describe())</code><button class="copy-btn">复制</button></pre>
+
+  <div class="verify">✅ 若看到描述性统计数据，环境配置成功。</div>
+</div>
+
+<div id="step1-win" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a>，下载 Windows 版（<code>.exe</code>）。</li>
+    <li>双击安装包，建议勾选：
+      <ul>
+        <li>"Add to PATH"（命令行输入 <code>code .</code> 可打开当前文件夹）</li>
+        <li>"Register Code as an editor for supported file types"</li>
+      </ul>
+    </li>
+    <li>
+      打开 VS Code，点击左侧 <strong>Extensions（扩展）</strong> 图标，搜索并安装：
+      <ul>
+        <li><strong>Python</strong>（Microsoft 出品）</li>
+        <li><strong>Jupyter</strong>（Microsoft 出品）</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4>测试 Jupyter 环境</h4>
+  <ol>
+    <li>新建文件，保存为 <code>test.ipynb</code></li>
+    <li>点击右上角 <strong>"Select Kernel"</strong> → <strong>"Python Environments..."</strong> → 选择 <code>datasci (Python 3.10.x)</code></li>
+    <li>在代码块输入测试代码并运行：</li>
+  </ol>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+
+df = pd.DataFrame(np.random.randn(5, 3), columns=['收入', '消费', '储蓄'])
+print("Python 环境正常！")
+print(df.describe())</code><button class="copy-btn">复制</button></pre>
+
+  <div class="verify">✅ 若看到描述性统计数据，环境配置成功。</div>
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 2 ══════════════════════ -->
+<h2 id="step2"><span class="step-badge">Step 2</span>安装 Node.js</h2>
+
+<p>Claude Code 需要 Node.js 运行环境。Node.js 相当于 Claude Code 与你电脑之间的"翻译官"。</p>
+
+<div class="os-tabs" role="tablist" data-group="step2">
+  <button class="os-tab-btn active" role="tab" data-tab="step2-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="step2-win">🪟 Windows</button>
+</div>
+
+<div id="step2-mac" class="os-pane active">
+  <h4>方式一（推荐）：通过 Homebrew 安装</h4>
+  <p>若尚未安装 Homebrew，先在终端运行（仅需一次）：</p>
+<pre><code class="language-bash">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code><button class="copy-btn">复制</button></pre>
+  <p>然后安装 Node.js：</p>
+<pre><code class="language-bash">brew install node</code><button class="copy-btn">复制</button></pre>
+
+  <h4>方式二：直接下载安装包</h4>
+  <p>访问 <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">nodejs.org/en/download</a>，下载 macOS Installer（<code>.pkg</code>），双击安装。</p>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：终端运行 <code>node -v</code> 和 <code>npm -v</code>，均显示版本号即成功（如 <code>v22.x.x</code>）。
+  </div>
+</div>
+
+<div id="step2-win" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">nodejs.org/en/download</a>，下载 <strong>Windows Installer (<code>.msi</code>)</strong>（选 LTS 版本）。</li>
+    <li>双击安装，按默认选项一路 Next 即可。</li>
+    <li>
+      安装完成后，打开 <strong>PowerShell</strong>（按 <code>Win</code> 键，输入 PowerShell，回车），验证：
+<pre><code class="language-powershell">node -v
+npm -v</code><button class="copy-btn">复制</button></pre>
+    </li>
+  </ol>
+
+  <div class="warning">
+    <strong>常见报错：脚本执行策略限制</strong><br>
+    若看到 <em>"无法加载文件，因为在此系统上禁止运行脚本"</em>，执行以下修复（约1分钟）：
+    <ol style="margin-top:0.5em;">
+      <li>右键<strong>开始菜单</strong> → <strong>"Windows PowerShell（管理员）"</strong>（或"终端（管理员）"）</li>
+      <li>运行：
+<pre><code class="language-powershell">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine</code><button class="copy-btn">复制</button></pre>
+      提示确认时按 <code>Y</code> + 回车</li>
+      <li>重新打开普通 PowerShell，再次运行 <code>npm -v</code></li>
+    </ol>
+    若仍报错：<code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+  </div>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：<code>node -v</code> 和 <code>npm -v</code> 均显示版本号即成功。
+  </div>
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 3 ══════════════════════ -->
+<h2 id="step3"><span class="step-badge">Step 3</span>安装 Git</h2>
+
+<p>Git 是版本管理工具，Claude Code 需要它来下载依赖和管理项目文件。</p>
+
+<div class="os-tabs" role="tablist" data-group="step3">
+  <button class="os-tab-btn active" role="tab" data-tab="step3-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="step3-win">🪟 Windows</button>
+</div>
+
+<div id="step3-mac" class="os-pane active">
+  <p>打开终端，运行：</p>
+<pre><code class="language-bash">git --version</code><button class="copy-btn">复制</button></pre>
+  <ul>
+    <li>若显示版本号（如 <code>git version 2.39.0</code>），说明已预装，<strong>跳过本步骤</strong>。</li>
+    <li>若提示安装，点击系统弹窗中的"安装"按钮（macOS 会自动安装 Xcode Command Line Tools）。</li>
+  </ul>
+  <p>或通过 Homebrew 安装最新版：</p>
+<pre><code class="language-bash">brew install git</code><button class="copy-btn">复制</button></pre>
+</div>
+
+<div id="step3-win" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com/downloads</a>，点击 <strong>"Download for Windows"</strong>。</li>
+    <li>
+      双击安装包，推荐选项：
+      <ul>
+        <li>"Adjusting your PATH environment" → 选 <strong>"Git from the command line and also from 3rd-party software"</strong></li>
+        <li>其余选项保持默认</li>
+      </ul>
+    </li>
+    <li>
+      安装完成后，PowerShell 验证：
+<pre><code class="language-powershell">git --version</code><button class="copy-btn">复制</button></pre>
+    </li>
+  </ol>
+
+  <div class="verify">✅ 显示版本号（如 <code>git version 2.44.0.windows.1</code>）即成功。</div>
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 4 ══════════════════════ -->
+<h2 id="step4"><span class="step-badge">Step 4</span>安装 Claude Code</h2>
+
+<p>Claude Code 是本套工作流的核心 AI 引擎，通过命令行和 VS Code 插件与你互动。</p>
+
+<div class="os-tabs" role="tablist" data-group="step4">
+  <button class="os-tab-btn active" role="tab" data-tab="step4-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="step4-win">🪟 Windows</button>
+</div>
+
+<div id="step4-mac" class="os-pane active">
+  <p>打开终端，运行：</p>
+<pre><code class="language-bash">sudo npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+  <p>输入系统密码（输入时字符不显示，属正常现象），按回车。等待安装完成（约1-3分钟）。</p>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：终端运行 <code>claude</code>，若弹出欢迎界面或登录提示，安装成功。
+  </div>
+</div>
+
+<div id="step4-win" class="os-pane">
+  <p>打开 PowerShell，运行：</p>
+<pre><code class="language-powershell">npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+
+  <div class="note">
+    <strong>下载缓慢？</strong>使用国内镜像：
+<pre><code class="language-powershell">npm install -g @anthropic-ai/claude-code --registry=https://registry.npmmirror.com</code><button class="copy-btn">复制</button></pre>
+  </div>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：PowerShell 运行 <code>claude</code>，若弹出欢迎界面或登录提示，安装成功。
+  </div>
+</div>
+
+<h3 id="proxy">网络代理配置（中国大陆必看）</h3>
+
+<p>由于 Anthropic 服务器在境外，国内直连时常出现以下报错：</p>
+
+<pre style="background:#2d1f1f; color:#f8a;"><code>Unable to connect to Anthropic services
+Failed to connect to api.anthropic.com: ERR_BAD_REQUEST
+Please check your internet connection and network settings.</code></pre>
+
+<p><strong>解决方法：</strong>在运行 <code>claude</code> 之前，设置代理环境变量。通常 VPN 本地端口为 <code>7890</code>，请先在 VPN 客户端确认端口号。</p>
+
+<div class="os-tabs" role="tablist" data-group="proxy">
+  <button class="os-tab-btn active" role="tab" data-tab="proxy-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="proxy-win">🪟 Windows</button>
+</div>
+
+<div id="proxy-mac" class="os-pane active">
+<pre><code class="language-bash">export HTTP_PROXY="http://127.0.0.1:7890"
+export HTTPS_PROXY="http://127.0.0.1:7890"
+claude</code><button class="copy-btn">复制</button></pre>
+
+  <p>若需<strong>永久生效</strong>（每次打开终端自动设置）：</p>
+<pre><code class="language-bash">echo 'export HTTP_PROXY="http://127.0.0.1:7890"' >> ~/.zshrc
+echo 'export HTTPS_PROXY="http://127.0.0.1:7890"' >> ~/.zshrc
+source ~/.zshrc</code><button class="copy-btn">复制</button></pre>
+</div>
+
+<div id="proxy-win" class="os-pane">
+<pre><code class="language-powershell">$env:HTTP_PROXY="http://127.0.0.1:7890"
+$env:HTTPS_PROXY="http://127.0.0.1:7890"
+claude</code><button class="copy-btn">复制</button></pre>
+
+  <p>若需<strong>永久生效</strong>（以管理员身份运行 PowerShell）：</p>
+<pre><code class="language-powershell">[System.Environment]::SetEnvironmentVariable("HTTP_PROXY", "http://127.0.0.1:7890", "User")
+[System.Environment]::SetEnvironmentVariable("HTTPS_PROXY", "http://127.0.0.1:7890", "User")</code><button class="copy-btn">复制</button></pre>
+  <p>重启终端后生效。</p>
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 4.5 ══════════════════════ -->
+<h2 id="step4-5"><span class="step-badge">Step 4.5</span>替代与补充：Google Antigravity 与 Gemini 配置</h2>
+
+<p><strong>Google Antigravity</strong> 是谷歌推出的一款面向开发者、以 <strong>AI Agent（智能体）为核心</strong>的下一代 AI 辅助编程与开发平台。</p>
+<p>它不再只是像传统编辑器侧边栏里塞一个简单的 AI 聊天框，而是让 AI Agent 具备高度自主性：</p>
+<ul>
+  <li><strong>自主任务编排：</strong>你给它一个高层指令（比如“帮我写一个登录页面并对接数据库”），AI Agent 能够自主创建计划、编写代码、在终端运行服务，甚至自己打开浏览器进行测试和验证。</li>
+  <li><strong>多 Agent 并行：</strong>它的 Manager 视图像一个中央指挥控制中心，允许你同时派发多个不同任务给多个 AI 子智能体，让它们在后台异步、并行地协作完成工作。</li>
+  <li><strong>提供桌面端与 IDE：</strong>它拥有独立的桌面应用（Antigravity 2.0），同时也提供专门的 IDE（基于 VS Code 深度定制改造）以及 CLI 命令行工具。</li>
+  <li><strong>Artifacts（交付物）机制：</strong>为了建立信任，AI 在执行任务时会生成清晰的任务列表、实现计划、甚至浏览器测试的截图和录屏，而不是让你去一行行对枯燥的运行日志。</li>
+</ul>
+<p>简单来说，它是谷歌用来对标 Cursor、Windsurf 以及 GitHub Copilot Workspace 的重量级 AI 编程生态。</p>
+
+<h3>下载 Antigravity 2.0 与 Antigravity IDE</h3>
+<ol>
+  <li>访问 Google Antigravity 官网，查找最新版本下载入口。</li>
+  <li>下载并安装 <strong>Antigravity 2.0 桌面客户端</strong>，该客户端适用于 macOS 与 Windows。</li>
+  <li>如果你希望在一个代码编辑器内使用 Antigravity，选择下载并安装 <strong>Antigravity IDE</strong>，它基于 VS Code 深度定制，并整合了 Antigravity 的 Agent 管理器和任务面板。</li>
+  <li>安装完成后，打开 Antigravity IDE，按指引登录 Google 账号并授权访问。</li>
+</ol>
+
+<h3>配置并接入 Gemini</h3>
+<ol>
+  <li><strong>账户登录与激活：</strong>首次打开 Antigravity IDE 时，系统会弹出欢迎向导，点击 <strong>Login with your Google account</strong>。</li>
+  <li><strong>注意：</strong>登录你拥有 Google One AI Premium（包含 Gemini Advanced 权益）或 Google Cloud / AI Studio 权限的 Google 账号。它会自动识别并激活你的高级 Token 额度。</li>
+  <li>如果你是高校用户，可以通过学校的 Google Workspace 教育账户、学院合作协议或校园 Google Cloud 教育计划，申请并免费使用 <strong>Google Gemini Pro</strong>。许多高校在 Google for Education 或 Cloud 教育计划下会为教师和学生提供免费的 Gemini Pro 试用额度。</li>
+  <li>登录成功后，进入 Antigravity IDE 的设置页面，查找 <strong>Gemini</strong> 或 <strong>AI Model</strong> 选项，选择 <strong>Gemini Advanced</strong> / <strong>Gemini Pro</strong>，并确认模型已激活。</li>
+  <li>在需要时，打开 Antigravity 的 <strong>Agent Manager</strong>，创建新的 Agent 任务并指定目标，如“生成后端登录接口”、“编写前端页面”、“运行自动化测试”等。</li>
+</ol>
+
+<div class="note">
+  <strong>Tip：</strong>Antigravity 的核心优势在于“由你下高层指令，AI 自动拆解并执行”。使用时，先写清楚目标和验收标准，例如“搭建一个用户登录页面，支持用户名密码登录，数据库存储使用 PostgreSQL，完成后运行接口测试并截图”。</div>
+
+<details>
+  <summary><strong>可折叠：Antigravity IDE + Gemini 与 VS Code + Claude 的区别</strong></summary>
+  <p>Antigravity IDE + Gemini 可以作为 VS Code + Claude 的替代方案，但它们的工作方式并不完全相同：</p>
+  <ul>
+    <li><strong>交互逻辑：</strong>VS Code + Claude 主要是对话驱动（Chat-driven），你在侧边栏与 AI 互动，AI 帮你写代码或改代码；而 Antigravity IDE + Gemini 是任务驱动（Agent-driven），你给一个最终目标，AI 会在后台自主推理并执行。</li>
+    <li><strong>AI 权限：</strong>VS Code + Claude 的权限通常局限于编辑代码文件，绝大多数常规插件默认无法自主运行终端命令或控制浏览器；Antigravity IDE + Gemini 则天然具备系统级权限，能够在中间终端跑 Bash 命令，用 WebFetch 抓网页，自测运行结果，甚至生成截图和录屏。</li>
+    <li><strong>工作流：</strong>VS Code + Claude 更多是同步交互：你写一行，它确认一行，你得一直盯着；Antigravity IDE + Gemini 则是异步并行：你把任务发出去，它可以在后台把整个流水线跑完，最后给你一个结果报告（Artifacts）。</li>
+  </ul>
+</details>
+
+<h4>验证 Antigravity 与 Gemini 是否接入成功</h4>
+<p>在 Antigravity IDE 中创建一个简单任务，例如“使用 Gemini Pro 生成一个 Flask 后端服务，并运行一次本地测试”。如果它能自动创建任务、生成代码、执行服务并给出测试结果，则说明配置成功。</p>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 5 ══════════════════════ -->
+<h2 id="step5"><span class="step-badge">Step 5</span>安装 VS Code 插件</h2>
+
+<p>安装 Claude Code 的 VS Code 插件，实现在编辑器内直接与 AI 对话。</p>
+
+<ol>
+  <li>打开 VS Code，点击左侧 <strong>Extensions（扩展）</strong> 图标。</li>
+  <li>搜索 <strong>"Claude Code"</strong>，找到 <strong>"Claude Code for VS Code"</strong>（Anthropic 官方出品），点击 Install。</li>
+  <li>安装后，VS Code 左侧边栏会出现 Claude Code 图标（圆形 C 标志）。</li>
+</ol>
+
+<div class="verify">
+  ✅ 点击侧边栏 Claude Code 图标，弹出对话面板即安装成功。
+</div>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ STEP 6 ══════════════════════ -->
+<h2 id="step6"><span class="step-badge">Step 6</span>配置 API 与登录</h2>
+
+<h3>方式一：使用 Claude 官方账号（推荐）</h3>
+
+<p>Claude Code 支持 Claude <strong>Pro / Max / Team / Enterprise</strong> 订阅账号直接登录，无需单独购买 API 额度。</p>
+
+<ol>
+  <li>在终端或 VS Code 中运行 <code>claude</code>。</li>
+  <li>
+    选择登录方式时，选 <strong>第1项</strong>：
+<pre><code>❯ 1. Claude account with subscription · Pro, Max, Team, or Enterprise
+  2. Anthropic Console account · API usage billing
+  3. 3rd-party platform · Amazon Bedrock, Microsoft Foundry, or Vertex AI</code></pre>
+  </li>
+  <li>按提示在浏览器中完成账号授权，返回终端即完成登录。</li>
+  <li>VS Code 中的 Claude Code 插件会同步可用。</li>
+</ol>
+
+<div class="note">
+  <strong>购买渠道：</strong>官方订阅在 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> 购买。国内有代购渠道，请注意甄别风险，选择信誉良好的服务商。
+</div>
+
+<hr style="margin:1.5em 0; border-top:1px dashed #ddd;">
+
+<h3>方式二：使用国内第三方 API（替代方案）</h3>
+
+<p>若无法访问官方订阅，可使用国内兼容 Claude API 协议的服务，如 <strong>MiniMax</strong> 或 <strong>DeepSeek</strong>。</p>
+
+<div class="note">
+  <strong>利弊说明：</strong>国内服务通常无需代理且更稳定，但模型能力可能与官方 Claude 有差异，且服务商资质需自行判断。
+</div>
+
+<div class="os-tabs" role="tablist" data-group="api">
+  <button class="os-tab-btn active" role="tab" data-tab="api-minimax">MiniMax</button>
+  <button class="os-tab-btn" role="tab" data-tab="api-deepseek">DeepSeek</button>
+</div>
+
+<div id="api-minimax" class="os-pane active">
+  <ol>
+    <li>访问 <a href="https://platform.minimaxi.com/" target="_blank" rel="noopener">platform.minimaxi.com</a>，注册并选择套餐。</li>
+    <li>在个人中心找到 <strong>API Key</strong>（格式：<code>sk-...</code>），复制备用。</li>
+    <li>
+      在 VS Code 中按：
+      <ul>
+        <li>Windows：<code>Ctrl+Shift+P</code></li>
+        <li>Mac：<code>Cmd+Shift+P</code></li>
+      </ul>
+      输入 <strong>"Preferences: Open User Settings (JSON)"</strong>，回车，打开配置文件。
+    </li>
+    <li>
+      填入以下配置（将 <code>YOUR_MINIMAX_API_KEY</code> 替换为实际密钥）：
+<pre><code class="language-json">{
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://api.minimaxi.com/anthropic"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "YOUR_MINIMAX_API_KEY"
+    },
+    {
+      "name": "API_TIMEOUT_MS",
+      "value": "3000000"
+    },
+    {
+      "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+      "value": "1"
+    },
+    {
+      "name": "ANTHROPIC_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "ANTHROPIC_SMALL_FAST_MODEL",
+      "value": "MiniMax-M2"
+    }
+  ],
+  "claudeCode.selectedModel": "MiniMax-M2",
+  "claudeCode.disableLoginPrompt": true
+}</code><button class="copy-btn">复制</button></pre>
+    </li>
+    <li><strong>完全关闭并重新打开 VS Code</strong>（不重启配置不生效）。</li>
+  </ol>
+</div>
+
+<div id="api-deepseek" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">platform.deepseek.com</a>，注册并获取 API Key。</li>
+    <li>
+      <strong>快速配置（命令行）：</strong>
+<pre><code class="language-bash">export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+export ANTHROPIC_AUTH_TOKEN=&lt;你的 DeepSeek API Key&gt;
+export ANTHROPIC_MODEL=deepseek-v4-pro
+export ANTHROPIC_DEFAULT_OPUS_MODEL=deepseek-v4-pro
+export ANTHROPIC_DEFAULT_SONNET_MODEL=deepseek-v4-pro
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-flash
+export CLAUDE_CODE_SUBAGENT_MODEL=deepseek-v4-flash
+export CLAUDE_CODE_EFFORT_LEVEL=max
+claude</code><button class="copy-btn">复制</button></pre>
+    </li>
+    <li>
+      <strong>或通过 VS Code 配置文件永久生效：</strong>
+<pre><code class="language-json">{
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://api.deepseek.com/anthropic"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "YOUR_DEEPSEEK_API_KEY"
+    },
+    {
+      "name": "ANTHROPIC_MODEL",
+      "value": "deepseek-v4-pro"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_OPUS_MODEL",
+      "value": "deepseek-v4-pro"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_SONNET_MODEL",
+      "value": "deepseek-v4-pro"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+      "value": "deepseek-v4-flash"
+    },
+    {
+      "name": "CLAUDE_CODE_SUBAGENT_MODEL",
+      "value": "deepseek-v4-flash"
+    },
+    {
+      "name": "CLAUDE_CODE_EFFORT_LEVEL",
+      "value": "max"
+    }
+  ]
+}</code><button class="copy-btn">复制</button></pre>
+      <div class="note">
+        <strong>关键说明：</strong><br>
+        • <code>https://api.deepseek.com/anthropic</code> — Claude API 兼容端点<br>
+        • <code>deepseek-v4-pro</code> — 主模型，性能与 Claude 3.5 Sonnet 相近<br>
+        • <code>deepseek-v4-flash</code> — 快速模型，适合子代理
+      </div>
+    </li>
+    <li><strong>完全关闭并重新打开 VS Code</strong>（不重启配置不生效）。</li>
+  </ol>
+</div>
+
+<h4>验证配置</h4>
+<p>重启 VS Code 后，打开 Claude Code 面板，输入：</p>
+<pre><code>你好，你是谁？你使用的是哪个模型？请简述双重差分法（DID）的基本原理。</code><button class="copy-btn">复制</button></pre>
+<p>若 AI 正常回复，配置完成。</p>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ APPENDIX A ══════════════════════ -->
+<h2 id="appendixA"><span class="step-badge appendix-badge">附录 A</span>Stata Workbench 配置</h2>
+
+<p>Stata Workbench 插件让你在 VS Code 中直接运行 Stata 代码，并由 Claude Code 辅助调试。</p>
+
+<ol>
+  <li>打开 VS Code Extensions，搜索 <strong>"Stata Workbench"</strong>，安装。</li>
+  <li>成功连接后，右下角状态栏会显示 <strong>"Stata Workbench: Connected"</strong>。</li>
+</ol>
+
+<p>若未自动连接，需手动配置 Stata 路径。打开 User Settings (JSON)，添加：</p>
+
+<div class="os-tabs" role="tablist" data-group="stata">
+  <button class="os-tab-btn active" role="tab" data-tab="stata-mac">🍎 Mac</button>
+  <button class="os-tab-btn" role="tab" data-tab="stata-win">🪟 Windows</button>
+</div>
+
+<div id="stata-mac" class="os-pane active">
+<pre><code class="language-json">{
+  "stata-workbench.stataPath": "/Applications/Stata/StataMP.app/Contents/MacOS/StataMP",
+  "stata-workbench.mcp.stataPath": "/Applications/Stata/StataMP.app/Contents/MacOS/StataMP"
+}</code><button class="copy-btn">复制</button></pre>
+  <div class="note">路径以实际安装位置为准。不确定？直接告诉 Claude Code："请帮我配置 Stata Workbench 的路径"，AI 会自动检测。</div>
+</div>
+
+<div id="stata-win" class="os-pane">
+<pre><code class="language-json">{
+  "stata-workbench.stataPath": "C:\\Program Files\\Stata19\\StataMP-64.exe",
+  "stata-workbench.mcp.stataPath": "C:\\Program Files\\Stata19\\StataMP-64.exe"
+}</code><button class="copy-btn">复制</button></pre>
+  <div class="note">若安装路径不同（如 Stata 18 或 SE 版），相应修改版本号和文件名。</div>
+</div>
+
+<h4>测试</h4>
+<p>新建文件，将文件语言切换为 Stata（右下角点击"纯文本" → 搜索 Stata），输入：</p>
+<pre><code class="language-stata">sysuse auto, clear
+summarize</code><button class="copy-btn">复制</button></pre>
+<p>点击运行按钮，若看到统计输出，配置成功。</p>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ APPENDIX B ══════════════════════ -->
+<h2 id="appendixB"><span class="step-badge appendix-badge">附录 B</span>LaTeX 环境配置</h2>
+
+<p>LaTeX 是学术论文排版的标准工具。完整环境由两部分组成：<strong>发行版</strong>（编译引擎）和<strong>编辑器</strong>（前端界面）。</p>
+
+<h3>一、安装发行版（编译引擎）</h3>
+
+<div class="os-tabs" role="tablist" data-group="latex">
+  <button class="os-tab-btn active" role="tab" data-tab="latex-mac">🍎 Mac：MacTeX</button>
+  <button class="os-tab-btn" role="tab" data-tab="latex-win">🪟 Windows：TeX Live</button>
+</div>
+
+<div id="latex-mac" class="os-pane active">
+  <p>访问 <a href="https://www.tug.org/mactex/" target="_blank" rel="noopener">tug.org/mactex</a>，下载 <strong>MacTeX.pkg</strong>（约 4.5 GB，包含完整 TeX Live）。</p>
+  <p>或通过 Homebrew 安装（便于日后更新）：</p>
+<pre><code class="language-bash">brew install --cask mactex</code><button class="copy-btn">复制</button></pre>
+
+  <div class="verify">
+    ✅ 验证：终端运行 <code>xelatex --version</code>，显示版本号即成功。
+  </div>
+</div>
+
+<div id="latex-win" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://tug.org/texlive/" target="_blank" rel="noopener">tug.org/texlive</a>，点击 <strong>"install TeX Live over the Internet"</strong>，下载 <code>install-tl-windows.exe</code>。</li>
+    <li>运行安装器，选择 <strong>"Full scheme"</strong>（推荐，包含所有宏包，约 5 GB）。</li>
+    <li>等待安装完成（视网络速度约 30–90 分钟）。</li>
+  </ol>
+
+  <div class="note">
+    网络较慢？选择国内镜像：安装时点击 "Change"，将安装源切换为清华源（<code>mirrors.tuna.tsinghua.edu.cn</code>）或中科大源。
+  </div>
+
+  <div class="verify">
+    ✅ 验证：PowerShell 运行 <code>xelatex --version</code>，显示版本号即成功。
+  </div>
+</div>
+
+<h3>二、安装编辑器</h3>
+
+<p>推荐以下两种方案（任选其一）：</p>
+
+<table style="width:100%; border-collapse:collapse; font-size:0.9em; margin:0.8em 0;">
+  <thead>
+    <tr style="background:#f0f4fa;">
+      <th style="text-align:left; padding:0.5em 0.8em; border:1px solid #ddd;">编辑器</th>
+      <th style="text-align:left; padding:0.5em 0.8em; border:1px solid #ddd;">特点</th>
+      <th style="text-align:left; padding:0.5em 0.8em; border:1px solid #ddd;">下载地址</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;"><strong>TeXstudio</strong></td>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;">专为 LaTeX 设计，功能全面，自带代码补全，实时预览；新手友好</td>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;"><a href="https://www.texstudio.org/" target="_blank" rel="noopener">texstudio.org</a></td>
+    </tr>
+    <tr>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;"><strong>VS Code + LaTeX Workshop</strong></td>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;">与 Claude Code 无缝集成，可在 AI 辅助下编写 LaTeX；适合已用 VS Code 的用户</td>
+      <td style="padding:0.5em 0.8em; border:1px solid #ddd;">在 Extensions 搜索 "LaTeX Workshop"（James Yu 出品）</td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+<hr>
+
+<!-- ══════════════════════ FAQ ══════════════════════ -->
+<h2 id="faq">常见问题</h2>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">conda activate 报错 "conda: command not found"（Mac）</summary>
+  <div style="margin-top:0.6em;">
+<pre><code class="language-bash">source ~/miniforge3/etc/profile.d/conda.sh
+conda activate datasci</code><button class="copy-btn">复制</button></pre>
+    <p>若要永久修复，将上面第一行添加到 <code>~/.zshrc</code>。</p>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">VS Code 找不到 Python 解释器</summary>
+  <div style="margin-top:0.6em;">
+    <p>按 <code>Cmd/Ctrl+Shift+P</code> → 输入 <strong>"Python: Select Interpreter"</strong> → 选择 <code>datasci (Python 3.10.x)</code>。</p>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">claude 命令运行后一直转圈不动</summary>
+  <div style="margin-top:0.6em;">
+    <p>通常是代理端口号不对。在 VPN 客户端设置中确认本地监听端口（常见：<code>7890</code>、<code>1080</code>、<code>8080</code>），修改代理设置中的端口号再试。</p>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">安装 Claude Code 时报 "EACCES: permission denied"（Mac）</summary>
+  <div style="margin-top:0.6em;">
+    <p>方法一：加 <code>sudo</code>：</p>
+<pre><code class="language-bash">sudo npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+    <p>方法二：重新设置 npm 全局目录：</p>
+<pre><code class="language-bash">mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc
+npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">VS Code 配置文件有多个大括号，如何合并？</summary>
+  <div style="margin-top:0.6em;">
+    <p>User Settings (JSON) 文件只能有一个顶层 <code>{}</code> 对象。若已有其他配置，将新增字段并入同一个 <code>{}</code> 内，用逗号分隔，不要出现两个独立的 <code>{...}</code>。</p>
+  </div>
+</details>
+
+<a href="#top" class="back-to-top">↑ 返回顶部</a>
+
+<footer>
+  <p>本指南持续更新。如有问题或建议，欢迎提 Issue。<br>
+  适用于 Claude Code 2025 及以上版本。</p>
+</footer>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────
+  document.querySelectorAll('.os-tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const group = this.closest('.os-tabs').dataset.group;
+      const targetId = this.dataset.tab;
+
+      // Deactivate all tabs in this group's button bar
+      this.closest('.os-tabs').querySelectorAll('.os-tab-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Find all panes that belong to this group (siblings following the tab bar)
+      // Pane IDs start with the group name
+      document.querySelectorAll(`[id^="${group}-"]`).forEach(pane => {
+        pane.classList.remove('active');
+      });
+      document.getElementById(targetId).classList.add('active');
+    });
+  });
+
+  // ── Copy buttons ───────────────────────────────────────────
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const code = this.previousElementSibling ? this.previousElementSibling.textContent : this.parentElement.querySelector('code').textContent;
+      navigator.clipboard.writeText(code.trim()).then(() => {
+        this.textContent = '已复制';
+        this.classList.add('copied');
+        setTimeout(() => {
+          this.textContent = '复制';
+          this.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
+</script>
+</body>
+</html>
