@@ -394,6 +394,9 @@ conda install pandas numpy scipy scikit-learn matplotlib seaborn jupyter</code><
     <li>打开 <code>.dmg</code>，将 Visual Studio Code 拖拽到"应用程序"文件夹。</li>
     <li>首次打开时，若系统提示"来自互联网的应用"，点击"打开"即可。</li>
     <li>
+      推荐安装命令行工具：打开 VS Code，按 <code>Cmd+Shift+P</code>，输入 <strong>"Shell Command: Install 'code' command in PATH"</strong>，回车。之后可在终端输入 <code>code .</code> 用 VS Code 打开当前文件夹。
+    </li>
+    <li>
       打开 VS Code，点击左侧 <strong>Extensions（扩展）</strong> 图标，搜索并安装：
       <ul>
         <li><strong>Python</strong>（Microsoft 出品）</li>
@@ -450,6 +453,24 @@ print("Python 环境正常！")
 print(df.describe())</code><button class="copy-btn">复制</button></pre>
 
   <div class="verify">✅ 若看到描述性统计数据，环境配置成功。</div>
+</div>
+
+<h3>1.2 登录 VS Code（可选，推荐）</h3>
+<p>登录 VS Code 账号可以<strong>同步你的设置、插件和使用记录</strong>到云端，换电脑后自动恢复。</p>
+<ol>
+  <li>打开 VS Code，点击左下角 <strong>账户图标</strong>（人形图标）→ 选择 <strong>"登录以同步设置"（Sign in to Sync Settings）</strong>。</li>
+  <li>选择登录方式：
+    <ul>
+      <li><strong>GitHub 账号</strong>（推荐，开发者最常用）</li>
+      <li><strong>Google 账号</strong></li>
+      <li><strong>Microsoft 账号</strong></li>
+    </ul>
+    任选其一即可，按浏览器弹出的授权页面完成登录。
+  </li>
+  <li>登录成功后，左下角会显示你的账号头像。VS Code 会自动同步你的设置、插件、快捷键等。</li>
+</ol>
+<div class="note">
+  <strong>登录的好处：</strong>你之前在其他电脑上的 VS Code 设置、安装的插件、Claude Code 使用记录等，都会自动同步到当前电脑。如果不登录，以上内容仅保存在本地。
 </div>
 
 <a href="#top" class="back-to-top">↑ 返回顶部</a>
@@ -527,20 +548,34 @@ npm -v</code><button class="copy-btn">复制</button></pre>
 <pre><code class="language-bash">git --version</code><button class="copy-btn">复制</button></pre>
   <ul>
     <li>若显示版本号（如 <code>git version 2.39.0</code>），说明已预装，<strong>跳过本步骤</strong>。</li>
-    <li>若提示安装，点击系统弹窗中的"安装"按钮（macOS 会自动安装 Xcode Command Line Tools）。</li>
+    <li>若提示安装，点击系统弹窗中的"安装"按钮（macOS 会自动安装 Xcode Command Line Tools，其中包含 Git）。</li>
   </ul>
-  <p>或通过 Homebrew 安装最新版：</p>
+  <p>如需最新版，可通过 <strong>Homebrew</strong> 安装（若尚未安装 Homebrew，见下文）：</p>
 <pre><code class="language-bash">brew install git</code><button class="copy-btn">复制</button></pre>
+
+  <h4>初次配置（推荐）</h4>
+  <p>设置用户名和邮箱，Git 提交记录会带上这些信息：</p>
+<pre><code class="language-bash">git config --global user.name "你的姓名"
+git config --global user.email "你的邮箱@example.com"</code><button class="copy-btn">复制</button></pre>
+
+  <div class="verify">
+    ✅ <strong>验证</strong>：终端运行 <code>git --version</code>，显示版本号即成功。
+  </div>
 </div>
 
 <div id="step3-win" class="os-pane">
   <ol>
-    <li>访问 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com/downloads</a>，点击 <strong>"Download for Windows"</strong>。</li>
     <li>
-      双击安装包，推荐选项：
+      访问 Git 官网：<a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a>，点击 <strong>"Click here to download"</strong>，下载最新版 <code>.exe</code> 安装包。
+      <div class="note">官网会自动匹配你的系统版本（64 位或 32 位），无需手动选择。</div>
+    </li>
+    <li>
+      双击安装包，按图形界面指引安装。以下是推荐选项（其余保持默认即可）：
       <ul>
-        <li>"Adjusting your PATH environment" → 选 <strong>"Git from the command line and also from 3rd-party software"</strong></li>
-        <li>其余选项保持默认</li>
+        <li><strong>"Adjusting your PATH environment"</strong> → 选 <strong>"Git from the command line and also from 3rd-party software"</strong></li>
+        <li><strong>"Choosing the default editor"</strong> → 建议选 <strong>"Use Visual Studio Code as Git's default editor"</strong></li>
+        <li><strong>"Configuring the line ending conversions"</strong> → 选 <strong>"Checkout Windows-style, commit Unix-style line endings"</strong></li>
+        <li>其余页面一路 <strong>Next</strong>（保持默认）即可</li>
       </ul>
     </li>
     <li>
@@ -548,6 +583,10 @@ npm -v</code><button class="copy-btn">复制</button></pre>
 <pre><code class="language-powershell">git --version</code><button class="copy-btn">复制</button></pre>
     </li>
   </ol>
+
+  <h4>初次配置（推荐）</h4>
+<pre><code class="language-powershell">git config --global user.name "你的姓名"
+git config --global user.email "你的邮箱@example.com"</code><button class="copy-btn">复制</button></pre>
 
   <div class="verify">✅ 显示版本号（如 <code>git version 2.44.0.windows.1</code>）即成功。</div>
 </div>
@@ -576,20 +615,35 @@ npm -v</code><button class="copy-btn">复制</button></pre>
 </div>
 
 <div id="step4-win" class="os-pane">
-  <p>打开 PowerShell，运行：</p>
+  <ol>
+    <li>
+      右键<strong>开始菜单</strong> → 选择 <strong>"Windows PowerShell（管理员）"</strong> 或 <strong>"终端（管理员）"</strong>。
+      <div class="note">
+        <strong>为什么需要管理员权限？</strong>npm 全局安装（<code>-g</code> 参数）需要写入系统目录，普通权限可能因权限不足而失败。
+      </div>
+    </li>
+    <li>
+      在管理员 PowerShell 中运行：
 <pre><code class="language-powershell">npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+      等待安装完成（约 1–3 分钟）。
+    </li>
+  </ol>
 
   <div class="note">
     <strong>下载缓慢？</strong>使用国内镜像：
 <pre><code class="language-powershell">npm install -g @anthropic-ai/claude-code --registry=https://registry.npmmirror.com</code><button class="copy-btn">复制</button></pre>
   </div>
 
+  <h4>验证安装</h4>
+  <p>关闭管理员窗口，打开<strong>普通 PowerShell</strong>，运行：</p>
+<pre><code class="language-powershell">claude --version</code><button class="copy-btn">复制</button></pre>
+
   <div class="verify">
-    ✅ <strong>验证</strong>：PowerShell 运行 <code>claude</code>，若弹出欢迎界面或登录提示，安装成功。
+    ✅ <strong>验证</strong>：显示版本号（如 <code>v1.0.x</code>）或运行 <code>claude</code> 弹出欢迎界面/登录提示，即安装成功。
   </div>
 </div>
 
-<h3 id="proxy">网络代理配置（中国大陆必看）</h3>
+<h3 id="proxy">网络代理配置（中国大陆用户必看）</h3>
 
 <p>由于 Anthropic 服务器在境外，国内直连时常出现以下报错：</p>
 
@@ -597,7 +651,7 @@ npm -v</code><button class="copy-btn">复制</button></pre>
 Failed to connect to api.anthropic.com: ERR_BAD_REQUEST
 Please check your internet connection and network settings.</code></pre>
 
-<p><strong>解决方法：</strong>在运行 <code>claude</code> 之前，设置代理环境变量。通常 VPN 本地端口为 <code>7890</code>，请先在 VPN 客户端确认端口号。</p>
+<p><strong>解决方法：</strong>在运行 <code>claude</code> 之前，设置代理环境变量。你需要有一个可用的 VPN 或代理工具，并确认本地监听端口（常见：<code>7890</code>、<code>1080</code>、<code>8080</code>，以 VPN 客户端显示为准）。</p>
 
 <div class="os-tabs" role="tablist" data-group="proxy">
   <button class="os-tab-btn active" role="tab" data-tab="proxy-mac">🍎 Mac</button>
@@ -605,25 +659,36 @@ Please check your internet connection and network settings.</code></pre>
 </div>
 
 <div id="proxy-mac" class="os-pane active">
+  <h4>临时设置（每次使用时手动执行）</h4>
 <pre><code class="language-bash">export HTTP_PROXY="http://127.0.0.1:7890"
 export HTTPS_PROXY="http://127.0.0.1:7890"
 claude</code><button class="copy-btn">复制</button></pre>
 
-  <p>若需<strong>永久生效</strong>（每次打开终端自动设置）：</p>
+  <h4>永久设置（推荐）</h4>
+  <p>将代理配置写入 shell 配置文件，每次打开终端自动生效：</p>
 <pre><code class="language-bash">echo 'export HTTP_PROXY="http://127.0.0.1:7890"' >> ~/.zshrc
 echo 'export HTTPS_PROXY="http://127.0.0.1:7890"' >> ~/.zshrc
 source ~/.zshrc</code><button class="copy-btn">复制</button></pre>
+  <div class="note">
+    <strong>Shell 类型注意：</strong>macOS 默认使用 <strong>zsh</strong>（配置文件 <code>~/.zshrc</code>）。如果你用的是 bash（旧系统），请改为 <code>~/.bash_profile</code>。不确定的话运行 <code>echo $SHELL</code> 查看。
+  </div>
 </div>
 
 <div id="proxy-win" class="os-pane">
+  <h4>临时设置（每次使用时手动执行）</h4>
 <pre><code class="language-powershell">$env:HTTP_PROXY="http://127.0.0.1:7890"
 $env:HTTPS_PROXY="http://127.0.0.1:7890"
 claude</code><button class="copy-btn">复制</button></pre>
 
-  <p>若需<strong>永久生效</strong>（以管理员身份运行 PowerShell）：</p>
+  <h4>永久设置（推荐）</h4>
+  <p>以<strong>管理员身份</strong>运行 PowerShell，执行：</p>
 <pre><code class="language-powershell">[System.Environment]::SetEnvironmentVariable("HTTP_PROXY", "http://127.0.0.1:7890", "User")
 [System.Environment]::SetEnvironmentVariable("HTTPS_PROXY", "http://127.0.0.1:7890", "User")</code><button class="copy-btn">复制</button></pre>
-  <p>重启终端后生效。</p>
+  <p>重启终端后永久生效。</p>
+</div>
+
+<div class="warning">
+  <strong>端口号确认：</strong>不同 VPN 的本地代理端口不同。以 Clash 系列为例通常是 <code>7890</code>，V2Ray 通常是 <code>10808</code>，SSR 通常是 <code>1080</code>。请在你的 VPN 客户端设置中确认正确的端口号，否则代理不会生效。
 </div>
 
 <a href="#top" class="back-to-top">↑ 返回顶部</a>
@@ -723,72 +788,138 @@ claude</code><button class="copy-btn">复制</button></pre>
 
 <h3>方式二：使用国内第三方 API（替代方案）</h3>
 
-<p>若无法访问官方订阅，可使用国内兼容 Claude API 协议的服务，如 <strong>MiniMax</strong> 或 <strong>DeepSeek</strong>。</p>
+<p>如果你没有 Claude 官方账号，或想使用<strong>国内模型</strong>（更稳定、无需代理、价格更低），可以通过配置第三方模型来使用 Claude Code。</p>
 
-<div class="note">
-  <strong>利弊说明：</strong>国内服务通常无需代理且更稳定，但模型能力可能与官方 Claude 有差异，且服务商资质需自行判断。
+<div class="intro-box">
+  <strong>两种配置方式：</strong>
+  <ul style="margin:0.5em 0 0 1.2em;">
+    <li><strong>选项 A：使用 CC Switch（图形化工具，推荐新手）</strong> — 图形化工具，下载后填 API Key 即可，无需手写 JSON 配置文件。</li>
+    <li><strong>选项 B：手动配置（推荐进阶用户）</strong> — 直接在 VS Code 的配置文件中设置，灵活度高。</li>
+  </ul>
+  <p style="margin:0.5em 0 0;">两种方式选其一即可。配置前需要先在模型提供商的官网注册并获取 <strong>API Key</strong>。</p>
 </div>
+
+<h4>前置步骤：获取 API Key</h4>
+<p>在配置之前，先去你想用的模型官网注册账号，获取 API Key：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>提供商</th>
+      <th>模型名称</th>
+      <th>获取 API Key 地址</th>
+      <th>特点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DeepSeek</strong></td>
+      <td>deepseek-v4-pro / deepseek-v4-flash</td>
+      <td><a href="https://platform.deepseek.com/" target="_blank" rel="noopener">platform.deepseek.com</a></td>
+      <td>性价比极高，提供原生 Claude API 兼容端点，能力与 Claude 3.5 Sonnet 相近</td>
+    </tr>
+    <tr>
+      <td><strong>智谱（Zhipu）</strong></td>
+      <td>GLM-4-Plus / GLM-4-Flash</td>
+      <td><a href="https://open.bigmodel.cn/" target="_blank" rel="noopener">open.bigmodel.cn</a></td>
+      <td>国产大模型，中文能力强，注册通常有免费额度</td>
+    </tr>
+    <tr>
+      <td><strong>MiniMax</strong></td>
+      <td>MiniMax-M2</td>
+      <td><a href="https://platform.minimaxi.com/" target="_blank" rel="noopener">platform.minimaxi.com</a></td>
+      <td>原生支持 Anthropic 协议端点，网络连接迅速且延迟低</td>
+    </tr>
+    <tr>
+      <td><strong>百度文心</strong></td>
+      <td>ERNIE-4.0</td>
+      <td><a href="https://console.bce.baidu.com/iam/#/iam/apikey/list" target="_blank" rel="noopener">console.bce.baidu.com</a></td>
+      <td>百度生态，对国内学术语境及中文理解深入</td>
+    </tr>
+    <tr>
+      <td><strong>月之暗面（Moonshot）</strong></td>
+      <td>moonshot-v1-8k</td>
+      <td><a href="https://platform.moonshot.cn/" target="_blank" rel="noopener">platform.moonshot.cn</a></td>
+      <td>长文本处理能力强，适合长篇文献阅读</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="warning">
+  <strong>注意：</strong>API Key 相当于你的账户密码，请妥善保管。大多数平台采用按量计费，需充值后才能使用。
+</div>
+
+<hr style="margin:1.5em 0; border-top:1px dashed #ddd;">
+
+<h4>选项 A：使用 CC Switch（图形化工具，推荐新手）</h4>
+<p><strong>CC Switch</strong> 是一种专门用于管理 Claude Code 模型配置的开源图形化工具。它能自动生成并应用配置，避免手动修改 JSON 配置文件的麻烦。macOS 和 Windows 均支持。</p>
+
+<h5>使用步骤：</h5>
+<ol>
+  <li>
+    访问 CC Switch 的官方发布页面（通常在 GitHub Releases 中），下载并安装对应系统的版本：
+    <ul>
+      <li><strong>Mac：</strong>下载 <code>.dmg</code> 文件，拖入应用程序文件夹。</li>
+      <li><strong>Windows：</strong>下载 <code>.exe</code> 安装包，双击进行安装。</li>
+    </ul>
+    <div class="note"><strong>注意：</strong>CC Switch 为社区开源工具，请确保下载渠道安全。若有顾虑，请选择<strong>选项 B（手动配置）</strong>。</div>
+  </li>
+  <li>打开 CC Switch，点击 <strong>"添加模型"</strong> 或 <strong>"Add Model"</strong>。</li>
+  <li>根据提示填写以下信息：
+    <ul>
+      <li><strong>API Base URL（API 端点）</strong>：填写模型提供商的兼容端点地址（见下表）。</li>
+      <li><strong>API Key</strong>：粘贴你获取的 API Key（<code>sk-...</code>）。</li>
+      <li><strong>Model Name（模型名称）</strong>：填写对应的模型代号。</li>
+    </ul>
+  </li>
+  <li>保存并应用，工具会自动将配置同步至 Claude Code，你可以在多个模型间一键切换。</li>
+</ol>
+
+<h5>常见兼容端点对照表：</h5>
+<table>
+  <thead>
+    <tr>
+      <th>提供商</th>
+      <th>API Base URL（兼容 Anthropic 协议）</th>
+      <th>主力模型名称</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DeepSeek</td>
+      <td><code>https://api.deepseek.com/anthropic</code></td>
+      <td><code>deepseek-v4-pro</code></td>
+    </tr>
+    <tr>
+      <td>智谱（GLM）</td>
+      <td><code>https://open.bigmodel.cn/api/paas/v4</code></td>
+      <td><code>glm-4-plus</code></td>
+    </tr>
+    <tr>
+      <td>MiniMax</td>
+      <td><code>https://api.minimaxi.com/anthropic</code></td>
+      <td><code>MiniMax-M2</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr style="margin:1.5em 0; border-top:1px dashed #ddd;">
+
+<h4>选项 B：手动配置（推荐进阶用户）</h4>
+<p>直接在 VS Code 的配置文件中配置环境变量，告诉 Claude Code 连接哪个第三方 API。不依赖额外工具，非常稳妥。</p>
 
 <div class="os-tabs" role="tablist" data-group="api">
-  <button class="os-tab-btn active" role="tab" data-tab="api-minimax">MiniMax</button>
-  <button class="os-tab-btn" role="tab" data-tab="api-deepseek">DeepSeek</button>
+  <button class="os-tab-btn active" role="tab" data-tab="api-deepseek">DeepSeek</button>
+  <button class="os-tab-btn" role="tab" data-tab="api-zhipu">智谱 GLM</button>
+  <button class="os-tab-btn" role="tab" data-tab="api-minimax">MiniMax</button>
 </div>
 
-<div id="api-minimax" class="os-pane active">
-  <ol>
-    <li>访问 <a href="https://platform.minimaxi.com/" target="_blank" rel="noopener">platform.minimaxi.com</a>，注册并选择套餐。</li>
-    <li>在个人中心找到 <strong>API Key</strong>（格式：<code>sk-...</code>），复制备用。</li>
-    <li>
-      在 VS Code 中按：
-      <ul>
-        <li>Windows：<code>Ctrl+Shift+P</code></li>
-        <li>Mac：<code>Cmd+Shift+P</code></li>
-      </ul>
-      输入 <strong>"Preferences: Open User Settings (JSON)"</strong>，回车，打开配置文件。
-    </li>
-    <li>
-      填入以下配置（将 <code>YOUR_MINIMAX_API_KEY</code> 替换为实际密钥）：
-<pre><code class="language-json">{
-  "claudeCode.allowDangerouslySkipPermissions": true,
-  "claudeCode.environmentVariables": [
-    {
-      "name": "ANTHROPIC_BASE_URL",
-      "value": "https://api.minimaxi.com/anthropic"
-    },
-    {
-      "name": "ANTHROPIC_AUTH_TOKEN",
-      "value": "YOUR_MINIMAX_API_KEY"
-    },
-    {
-      "name": "API_TIMEOUT_MS",
-      "value": "3000000"
-    },
-    {
-      "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
-      "value": "1"
-    },
-    {
-      "name": "ANTHROPIC_MODEL",
-      "value": "MiniMax-M2"
-    },
-    {
-      "name": "ANTHROPIC_SMALL_FAST_MODEL",
-      "value": "MiniMax-M2"
-    }
-  ],
-  "claudeCode.selectedModel": "MiniMax-M2",
-  "claudeCode.disableLoginPrompt": true
-}</code><button class="copy-btn">复制</button></pre>
-    </li>
-    <li><strong>完全关闭并重新打开 VS Code</strong>（不重启配置不生效）。</li>
-  </ol>
-</div>
-
-<div id="api-deepseek" class="os-pane">
+<!-- DeepSeek -->
+<div id="api-deepseek" class="os-pane active">
   <ol>
     <li>访问 <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">platform.deepseek.com</a>，注册并获取 API Key。</li>
     <li>
-      <strong>快速配置（命令行）：</strong>
+      <strong>快速配置（命令行临时生效）：</strong>
 <pre><code class="language-bash">export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 export ANTHROPIC_AUTH_TOKEN=&lt;你的 DeepSeek API Key&gt;
 export ANTHROPIC_MODEL=deepseek-v4-pro
@@ -800,7 +931,7 @@ export CLAUDE_CODE_EFFORT_LEVEL=max
 claude</code><button class="copy-btn">复制</button></pre>
     </li>
     <li>
-      <strong>或通过 VS Code 配置文件永久生效：</strong>
+      <strong>VS Code 永久配置：</strong>打开命令面板（Mac: <code>Cmd+Shift+P</code> / Win: <code>Ctrl+Shift+P</code>），输入 <strong>"Preferences: Open User Settings (JSON)"</strong>，回车，在配置大括号内添加以下内容（将 <code>YOUR_DEEPSEEK_API_KEY</code> 替换为实际密钥）：
 <pre><code class="language-json">{
   "claudeCode.environmentVariables": [
     {
@@ -834,22 +965,147 @@ claude</code><button class="copy-btn">复制</button></pre>
     {
       "name": "CLAUDE_CODE_EFFORT_LEVEL",
       "value": "max"
+    },
+    {
+      "name": "API_TIMEOUT_MS",
+      "value": "3000000"
+    },
+    {
+      "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+      "value": "1"
     }
-  ]
+  ],
+  "claudeCode.disableLoginPrompt": true
 }</code><button class="copy-btn">复制</button></pre>
       <div class="note">
-        <strong>关键说明：</strong><br>
-        • <code>https://api.deepseek.com/anthropic</code> — Claude API 兼容端点<br>
-        • <code>deepseek-v4-pro</code> — 主模型，性能与 Claude 3.5 Sonnet 相近<br>
-        • <code>deepseek-v4-flash</code> — 快速模型，适合子代理
+        <strong>关键配置说明：</strong><br>
+        • <code>ANTHROPIC_BASE_URL</code> — DeepSeek 提供的 Claude API 兼容端点。<br>
+        • <code>deepseek-v4-pro</code> — 主模型，性能与 Claude 3.5 Sonnet 相近。<br>
+        • <code>deepseek-v4-flash</code> — 快速模型，适合简单任务和子代理。<br>
+        • <code>CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC</code> — 关闭非必要网络请求，避免因无法访问 Anthropic 官网登录而报错。<br>
+        • <code>claudeCode.disableLoginPrompt</code> — 跳过官方登录提示，直接使用配置的 API。
       </div>
     </li>
-    <li><strong>完全关闭并重新打开 VS Code</strong>（不重启配置不生效）。</li>
+    <li><strong>完全关闭并重新打开 VS Code</strong>（必须重启编辑器配置才会生效）。</li>
   </ol>
 </div>
 
+<!-- 智谱 GLM -->
+<div id="api-zhipu" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://open.bigmodel.cn/" target="_blank" rel="noopener">open.bigmodel.cn</a>，注册并获取 API Key。</li>
+    <li>
+      打开 VS Code JSON 配置文件（命令面板输入 <code>Preferences: Open User Settings (JSON)</code>），在 JSON 内填入以下配置（将 <code>YOUR_ZHIPU_API_KEY</code> 替换为实际密钥）：
+<pre><code class="language-json">{
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://open.bigmodel.cn/api/paas/v4"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "YOUR_ZHIPU_API_KEY"
+    },
+    {
+      "name": "ANTHROPIC_MODEL",
+      "value": "glm-4-plus"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_OPUS_MODEL",
+      "value": "glm-4-plus"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_SONNET_MODEL",
+      "value": "glm-4-plus"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+      "value": "glm-4-flash"
+    },
+    {
+      "name": "CLAUDE_CODE_SUBAGENT_MODEL",
+      "value": "glm-4-flash"
+    },
+    {
+      "name": "API_TIMEOUT_MS",
+      "value": "3000000"
+    },
+    {
+      "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+      "value": "1"
+    }
+  ],
+  "claudeCode.disableLoginPrompt": true
+}</code><button class="copy-btn">复制</button></pre>
+      <div class="note">
+        <strong>说明：</strong>智谱的 API 兼容 OpenAI 协议格式。如果 Claude Code 通过 Anthropic 兼容端点无法连接，可能需要通过中转服务（如 one-api）将 OpenAI 格式转换为 Anthropic 格式。建议优先使用 DeepSeek 或 MiniMax（原生支持 Anthropic 协议）。
+      </div>
+    </li>
+    <li><strong>完全关闭并重新打开 VS Code</strong>。</li>
+  </ol>
+</div>
+
+<!-- MiniMax -->
+<div id="api-minimax" class="os-pane">
+  <ol>
+    <li>访问 <a href="https://platform.minimaxi.com/" target="_blank" rel="noopener">platform.minimaxi.com</a>，注册获取 API Key。</li>
+    <li>
+      打开 VS Code JSON 配置文件，填入以下配置（将 <code>YOUR_MINIMAX_API_KEY</code> 替换为实际密钥）：
+<pre><code class="language-json">{
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://api.minimaxi.com/anthropic"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "YOUR_MINIMAX_API_KEY"
+    },
+    {
+      "name": "ANTHROPIC_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_OPUS_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_SONNET_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "CLAUDE_CODE_SUBAGENT_MODEL",
+      "value": "MiniMax-M2"
+    },
+    {
+      "name": "API_TIMEOUT_MS",
+      "value": "3000000"
+    },
+    {
+      "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+      "value": "1"
+    }
+  ],
+  "claudeCode.disableLoginPrompt": true,
+  "claudeCode.selectedModel": "MiniMax-M2"
+}</code><button class="copy-btn">复制</button></pre>
+    </li>
+    <li><strong>完全关闭并重新打开 VS Code</strong>。</li>
+  </ol>
+</div>
+
+<h4 style="margin-top:1.5em;">重要提示</h4>
+<ol>
+  <li><strong>多个配置如何合并：</strong>VS Code 的 User Settings (JSON) 文件只能有一个顶层 <code>{}</code> 对象。如果你之前已有其他配置，请将上面的配置项并入同一个 <code>{}</code> 内部，用逗号分隔——不要出现两个独立的 <code>{...}</code>。</li>
+</ol>
+
 <h4>验证配置</h4>
-<p>重启 VS Code 后，打开 Claude Code 面板，输入：</p>
+<p>重启 VS Code 后，打开 Claude Code 面板，输入以下内容进行验证：</p>
 <pre><code>你好，你是谁？你使用的是哪个模型？请简述双重差分法（DID）的基本原理。</code><button class="copy-btn">复制</button></pre>
 <p>若 AI 正常回复，配置完成。</p>
 
@@ -985,23 +1241,82 @@ conda activate datasci</code><button class="copy-btn">复制</button></pre>
 </details>
 
 <details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
-  <summary style="cursor:pointer; font-weight:bold; color:#012169;">claude 命令运行后一直转圈不动</summary>
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">claude 命令运行后一直转圈或显示连接错误</summary>
   <div style="margin-top:0.6em;">
-    <p>通常是代理端口号不对。在 VPN 客户端设置中确认本地监听端口（常见：<code>7890</code>、<code>1080</code>、<code>8080</code>），修改代理设置中的端口号再试。</p>
+    <p>可能的原因和解决方法：</p>
+    <ol>
+      <li><strong>代理端口不对：</strong>确认 VPN 客户端的本地监听端口（常见：<code>7890</code>、<code>1080</code>、<code>8080</code>），修改代理设置中的端口号再试。</li>
+      <li><strong>VPN 未开启或未连接：</strong>确保代理工具已启动并正常工作。</li>
+      <li><strong>API Key 无效：</strong>如果使用第三方 API，检查 API Key 是否正确、是否有余额。</li>
+    </ol>
   </div>
 </details>
 
 <details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
-  <summary style="cursor:pointer; font-weight:bold; color:#012169;">安装 Claude Code 时报 "EACCES: permission denied"（Mac）</summary>
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">安装 Claude Code 时报 "EACCES: permission denied"</summary>
   <div style="margin-top:0.6em;">
-    <p>方法一：加 <code>sudo</code>：</p>
+    <p><strong>Mac：</strong></p>
+    <p>方法一：在命令前加 <code>sudo</code>：</p>
 <pre><code class="language-bash">sudo npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
-    <p>方法二：重新设置 npm 全局目录：</p>
+    <p>方法二：更改 npm 全局目录到用户目录（推荐，避免权限问题）：</p>
 <pre><code class="language-bash">mkdir -p ~/.npm-global
 npm config set prefix '~/.npm-global'
 echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
 source ~/.zshrc
 npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</button></pre>
+    <p><strong>Windows：</strong>以<strong>管理员身份</strong>运行 PowerShell，再执行 <code>npm install -g</code>。</p>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">Mac 上提示 "claude: command not found"</summary>
+  <div style="margin-top:0.6em;">
+    <p>通常是 npm 全局 bin 目录不在 PATH 中。运行以下命令修复：</p>
+<pre><code class="language-bash">echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc</code><button class="copy-btn">复制</button></pre>
+    <p>如果是用 <code>sudo</code> 安装的，检查 <code>/usr/local/bin</code> 是否在 PATH 中：</p>
+<pre><code class="language-bash">echo $PATH</code><button class="copy-btn">复制</button></pre>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">VS Code 中 Claude Code 插件不显示或无法使用</summary>
+  <div style="margin-top:0.6em;">
+    <p>请依次检查：</p>
+    <ol>
+      <li>确认 Claude Code CLI 已正确安装：终端/PowerShell 运行 <code>claude --version</code> 看是否有输出。</li>
+      <li>确认 VS Code 插件已安装：Extensions 中搜索 "Claude Code"，确保已启用（不要处于禁用状态）。</li>
+      <li>尝试完全关闭 VS Code 再重新打开（Mac: <code>Cmd+Q</code> / Windows: 右键任务栏图标退出）。</li>
+      <li>如果配置了第三方 API，确认 <code>settings.json</code> 中 <code>claudeCode.disableLoginPrompt</code> 设为 <code>true</code>。</li>
+    </ol>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">配置了第三方 API，但 Claude Code 仍然提示需要登录</summary>
+  <div style="margin-top:0.6em;">
+    <p>在 VS Code 的 <code>settings.json</code> 中确认已添加：</p>
+<pre><code class="language-json">"claudeCode.disableLoginPrompt": true</code><button class="copy-btn">复制</button></pre>
+    <p>然后<strong>完全关闭 VS Code 再重新打开</strong>（不重启配置不生效）。</p>
+    <p>如果使用命令行运行 <code>claude</code>，可通过环境变量跳过：</p>
+    <p><strong>Mac：</strong></p>
+<pre><code class="language-bash">export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+claude</code><button class="copy-btn">复制</button></pre>
+    <p><strong>Windows：</strong></p>
+<pre><code class="language-powershell">$env:CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+claude</code><button class="copy-btn">复制</button></pre>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">API Key 如何保管？会不会泄露？</summary>
+  <div style="margin-top:0.6em;">
+    <p>API Key 存储在 VS Code 的 <code>settings.json</code> 中，仅在本地有效。<strong>注意：</strong></p>
+    <ul>
+      <li>不要将包含 API Key 的配置文件上传到 GitHub 等公开平台。</li>
+      <li>如果不小心泄露，立即去对应平台删除旧 Key 并创建新 Key。</li>
+      <li>大部分平台支持设置 API Key 的<strong>用量上限</strong>，建议设置一个合理的月度上限以防意外。</li>
+    </ul>
   </div>
 </details>
 
@@ -1009,6 +1324,37 @@ npm install -g @anthropic-ai/claude-code</code><button class="copy-btn">复制</
   <summary style="cursor:pointer; font-weight:bold; color:#012169;">VS Code 配置文件有多个大括号，如何合并？</summary>
   <div style="margin-top:0.6em;">
     <p>User Settings (JSON) 文件只能有一个顶层 <code>{}</code> 对象。若已有其他配置，将新增字段并入同一个 <code>{}</code> 内，用逗号分隔，不要出现两个独立的 <code>{...}</code>。</p>
+    <p>例如，合并前（<strong>错误</strong>）：</p>
+<pre><code class="language-json">{
+  "editor.fontSize": 14
+}
+{
+  "claudeCode.environmentVariables": [...]
+}</code><button class="copy-btn">复制</button></pre>
+    <p>合并后（<strong>正确</strong>）：</p>
+<pre><code class="language-json">{
+  "editor.fontSize": 14,
+  "claudeCode.environmentVariables": [...]
+}</code><button class="copy-btn">复制</button></pre>
+  </div>
+</details>
+
+<details style="margin:0.8em 0; border:1px solid #ddd; padding:0.6em 1em; border-radius:4px;">
+  <summary style="cursor:pointer; font-weight:bold; color:#012169;">国内模型和 Claude 官方模型有什么区别？</summary>
+  <div style="margin-top:0.6em;">
+    <table>
+      <thead>
+        <tr><th></th><th>Claude 官方</th><th>国内模型</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>网络</td><td>需要代理/VPN</td><td>国内直连，更稳定</td></tr>
+        <tr><td>价格</td><td>较高（Pro $20/月 或 API 按量）</td><td>较低（按量计费，通常几分钱/次）</td></tr>
+        <tr><td>能力</td><td>最强（原版 Claude）</td><td>接近但略有差距</td></tr>
+        <tr><td>中文</td><td>优秀</td><td>更符合国内使用习惯</td></tr>
+        <tr><td>合规</td><td>海外公司</td><td>国内公司，数据不出境</td></tr>
+      </tbody>
+    </table>
+    <p>建议：日常使用国内模型即可满足大部分需求；重要/复杂任务可考虑使用 Claude 官方服务。</p>
   </div>
 </details>
 
